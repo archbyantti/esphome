@@ -177,7 +177,13 @@ void HOT Inkplate::draw_absolute_pixel_internal(int x, int y, Color color) {
     // px = pow(px, 1.5);
     // uint8_t gs = (uint8_t)(px*7);
 
-    uint8_t gs = ((color.red * 2126 / 10000) + (color.green * 7152 / 10000) + (color.blue * 722 / 10000)) >> 5;
+    // Improved grayscale conversion to maintain better contrast
+    float px = (0.2126 * (color.red / 255.0)) + (0.7152 * (color.green / 255.0)) + (0.0722 * (color.blue / 255.0));
+    px = pow(px, 1.5);  // Gamma correction for better visual perception
+    uint8_t gs = (uint8_t)(px*7);  // Scale to 8 levels (0-7)
+    
+    // Ensure we don't exceed the maximum value
+    if (gs > 7) gs = 7;
     this->buffer_[pos] = (PIXEL_MASK_GLUT[x_sub] & current) | (x_sub ? gs : gs << 4);
 
   } else {
@@ -312,7 +318,13 @@ void Inkplate::fill(Color color) {
   }
 
   if (this->greyscale_) {
-    uint8_t fill = ((color.red * 2126 / 10000) + (color.green * 7152 / 10000) + (color.blue * 722 / 10000)) >> 5;
+    // Improved grayscale conversion for fill operation
+    float px = (0.2126 * (color.red / 255.0)) + (0.7152 * (color.green / 255.0)) + (0.0722 * (color.blue / 255.0));
+    px = pow(px, 1.5);  // Gamma correction for better visual perception
+    uint8_t fill = (uint8_t)(px*7);  // Scale to 8 levels (0-7)
+    
+    // Ensure we don't exceed the maximum value
+    if (fill > 7) fill = 7;
     memset(this->buffer_, (fill << 4) | fill, this->get_buffer_length_());
   } else {
     uint8_t fill = color.is_on() ? 0x00 : 0xFF;
