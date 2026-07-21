@@ -371,6 +371,7 @@ void Inkplate::display1b_() {
       break;
     case INKPLATE_6:
     case INKPLATE_6_V2:
+    case INKPLATE_6_FLICK:
       clean_fast_(0, 1);
       clean_fast_(1, 18);
       clean_fast_(2, 1);
@@ -380,7 +381,7 @@ void Inkplate::display1b_() {
       clean_fast_(2, 1);
       clean_fast_(0, 18);
       clean_fast_(2, 1);
-      if (this->model_ == INKPLATE_6_V2)
+      if (this->model_ == INKPLATE_6_V2 || this->model_ == INKPLATE_6_FLICK)
         rep = 5;
       break;
     case INKPLATE_5:
@@ -543,6 +544,7 @@ void Inkplate::display3b_() {
       break;
     case INKPLATE_6:
     case INKPLATE_6_V2:
+    case INKPLATE_6_FLICK:
       clean_fast_(0, 1);
       clean_fast_(1, 18);
       clean_fast_(2, 1);

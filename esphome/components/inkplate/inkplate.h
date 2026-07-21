@@ -16,6 +16,7 @@ enum InkplateModel : uint8_t {
   INKPLATE_6_V2 = 3,
   INKPLATE_5 = 4,
   INKPLATE_5_V2 = 5,
+  INKPLATE_6_FLICK = 6,
 };
 
 static constexpr uint8_t GLUT_SIZE = 9;
@@ -130,6 +131,8 @@ class Inkplate final : public display::DisplayBuffer, public i2c::I2CDevice {
       return 1280;
     } else if (this->model_ == INKPLATE_6_PLUS) {
       return 1024;
+    } else if (this->model_ == INKPLATE_6_FLICK) {
+      return 1024;
     }
     return 0;
   }
@@ -144,6 +147,8 @@ class Inkplate final : public display::DisplayBuffer, public i2c::I2CDevice {
     } else if (this->model_ == INKPLATE_10) {
       return 825;
     } else if (this->model_ == INKPLATE_6_PLUS) {
+      return 758;
+    } else if (this->model_ == INKPLATE_6_FLICK) {
       return 758;
     }
     return 0;
